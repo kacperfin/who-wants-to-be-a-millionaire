@@ -1,5 +1,5 @@
 package com.wolvesdevelopment.game;
-import com.wolvesdevelopment.game.model.Question;
+import com.wolvesdevelopment.game.model.*;
 
 public class Main
 {
