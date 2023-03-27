@@ -1,27 +1,39 @@
 package com.wolvesdevelopment.game;
-import com.wolvesdevelopment.game.model.*;
 
+import com.wolvesdevelopment.game.model.*;
+import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Main
 {
     public static void main(String[] args)
     {
-        //The code below will be replaced by code for reading questions from a database
-        int numberOfQuestions=1;
         ArrayList<Question> questions = new ArrayList<Question>();
-        for(int i=0; i<numberOfQuestions; i++)
-        {
-            ArrayList<String> listOfAnswers = new ArrayList<String>();
-            listOfAnswers.add("Abraham Lincoln");
-            listOfAnswers.add("George Washington");
-            listOfAnswers.add("John F. Kennedy");
-            listOfAnswers.add("Donald Trump");
-            Question question = new Question("What is the name of the 1st president of the USA?", 1, listOfAnswers);
-            questions.add(question);
-        }
+        int answerIndex;
+        Scanner scanner = new Scanner(System.in);
 
+        String url = "jdbc:mysql://localhost:3306/milionerzy";
+        String username = "root";
+        String password = "";
+
+        Database db = new Database(url, username, password);
+        db.connect();
+        db.query("SELECT * FROM questions ORDER BY RAND() LIMIT 4");
+
+
+        ResultSet resultSet = db.getResultSet();
         GameModel gameModel = new GameModel(questions);
-        gameModel.runGame();
+        gameModel.insertQuestionsFromDB(resultSet);
+        db.close();
+
+
+        while(!gameModel.isGameOver())
+        {
+            gameModel.askQuestion();
+            gameModel.printCurrentQuestionIndex();
+            answerIndex = scanner.nextInt();
+            gameModel.getAnswer(answerIndex);
+        }
     }
 }

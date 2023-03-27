@@ -35,11 +35,15 @@ public class Question
         this.questionText = questionText;
     }
 
-    public void setCorrectAnswerIndex(int CorrectAnswerIndex)
+    public void setCorrectAnswerIndex(int correctAnswerIndex)
     {
         this.correctAnswerIndex = correctAnswerIndex;
     }
 
+    public void setAnswers(ArrayList<String> answers)
+    {
+        this.answers = answers;
+    }
     public void setAnswerTextOfIndex(int index, String text)
     {
         answers.set(index, text);
@@ -52,7 +56,7 @@ public class Question
 
     public void printCorrectAnswerIndex()
     {
-        System.out.print(correctAnswerIndex);
+        System.out.println(correctAnswerIndex);
     }
 
     public void printCorrectAnswerText()
