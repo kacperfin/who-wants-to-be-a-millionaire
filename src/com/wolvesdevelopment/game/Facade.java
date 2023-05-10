@@ -2,22 +2,26 @@ package com.wolvesdevelopment.game;
 
 public class Facade
 {
-    private Game game = new Game();
+    private Game game;
 
     public Facade()
     {
-        ;
+        game = new Game();
+    }
+
+    public void startGame()
+    {
+        game.startGame();
     }
 
     public String getQuestion()
     {
-        return "Question";
+        return game.getQuestion();
     }
 
     public String[] getAnswers()
     {
-        String[] answers = {"1", "2", "3", "4"};
-        return answers;
+        return game.getAnswers();
     }
 
     public int isAnswerCorrect(int answer)
@@ -27,36 +31,31 @@ public class Facade
         * 1 - game continues,
         * 2 - you won
         * */
-        return 1;
+        return game.isAnswerCorrect(answer);
     }
 
     public int getCurrentQuestionNumber()
     {
-        return 11;
+        return game.getCurrentQuestionIndex();
     }
 
     public int[] getAnswersToHide()
     {
-        int answersToHide[] = {1, 3};
-        if(isLifebeltAvailable())
-            return answersToHide;
-        else return null;
+        return game.getAnswersToHide();
     }
 
     public boolean isLifebeltAvailable()
     {
-        return true;
+        return game.isLifebeltAvailable();
+    }
+
+    public void useLifebelt()
+    {
+        game.useLifebelt();
     }
 
     public int[] getMoney()
     {
-        /*
-        * money[0] - guaranteed prize
-        * money[1] - current prize if you leave
-        * money[2] - prize if you get the next question right
-        * */
-        int[] money = {40000, 250000, 500000};
-        return money;
+        return game.getMoney();
     }
-
 }
