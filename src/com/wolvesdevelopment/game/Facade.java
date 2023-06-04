@@ -41,6 +41,8 @@ public class Facade
 
     public int[] getAnswersToHide()
     {
+        /* after using lifebelt, client can run this function and
+        * get 2 wrong answer indexes to be hidden */
         return game.getAnswersToHide();
     }
 
@@ -56,6 +58,9 @@ public class Facade
 
     public int[] getMoney()
     {
+        /* [0] - nagroda gwarantowana */
+        /* [0] - ile dostajesz jesli zrezygnujesz */
+        /* [0] - o ile grasz */
         return game.getMoney();
     }
 }

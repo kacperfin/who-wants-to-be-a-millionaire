@@ -40,8 +40,11 @@ public class Game {
 
         if (currentQuestionIndex == 0) {
             money = new int[]{0, 0, prizes[currentQuestionIndex]};
-        } else {
+        } else if (currentQuestionIndex <= 12) {
             money = new int[]{guaranteedPrize, prizes[currentQuestionIndex - 1], prizes[currentQuestionIndex]};
+        }
+        else {
+            return null;
         }
         return money;
     }
@@ -63,30 +66,38 @@ public class Game {
         return currentQuestionIndex;
     }
 
-    public int[] getAnswersToHide() {
-        if(isLifebeltAvailable())
-        {
-            int randomNum;
-            int[] answersToReturn = new int[2];
-            List<Integer> answersToHide = new ArrayList<>();
+    private boolean contains(List<Integer> arr, int num) {
+        for (int i : arr) {
+            if (num == i) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-            while ((randomNum = ThreadLocalRandom.current().nextInt(0, 4)) !=
-                    questions.get(currentQuestionIndex).getCorrectAnswerIndex() &&
-                    answersToHide.size() < 2)
-            {
-                answersToHide.add(randomNum);
+    public int[] getAnswersToHide() {
+        int randomNum;
+        int[] answersToReturn = new int[2];
+        List<Integer> answersToHide = new ArrayList<>();
+
+        while (answersToHide.size() < 2) {
+            randomNum = ThreadLocalRandom.current().nextInt(0, 4);
+
+            if (questions.get(currentQuestionIndex).getCorrectAnswerIndex() == randomNum) {
+                continue;
             }
 
-            for (int i = 0; i < 2; i++)
-                answersToReturn[i] = answersToHide.get(i);
+            if (contains(answersToHide, randomNum)) {
+                continue;
+            }
 
+            answersToHide.add(randomNum);
+        }
 
-            return answersToReturn;
-        }
-        else
-        {
-            return null;
-        }
+        for (int i = 0; i < 2; i++)
+            answersToReturn[i] = answersToHide.get(i);
+
+        return answersToReturn;
     }
 
     public int isAnswerCorrect(int answer)
